@@ -30,7 +30,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 if ( ! class_exists( 'FS_Simple_Glossary' ) ) {
 
-FS_Simple_Glossary::init();
+/**
+ * So that themes and other plugins can customise the text domain, the FS_Simple_Glossary
+ * should not be initialized until after the plugins_loaded and after_setup_theme hooks.
+ * However, it also needs to run early on the init hook.
+ *
+ * @author Brent Shepherd <brent@findingsimple.com>
+ * @package Simple Glossary
+ * @since 1.0
+ */
+function initialize_glossary(){
+	FS_Simple_Glossary::init();
+}
+add_action( 'init', 'initialize_glossary', -1 );
 
 class FS_Simple_Glossary {
 
@@ -38,6 +50,10 @@ class FS_Simple_Glossary {
 
 	/**
 	 * Hook into WordPress where appropriate.
+	 *
+	 * @author Brent Shepherd <brent@findingsimple.com>
+	 * @package Simple Glossary
+	 * @since 1.0
 	 */
 	public static function init() {
 
@@ -120,6 +136,9 @@ class FS_Simple_Glossary {
 	/**
 	 * Returns the URI to the Glossary Archive page. 
 	 *
+	 * @author Brent Shepherd <brent@findingsimple.com>
+	 * @package Simple Glossary
+	 * @since 1.0
 	 */
 	public static function get_glossary_archive_uri() {
 		return site_url( '/glossary/' );
