@@ -48,6 +48,8 @@ class FS_Simple_Glossary {
 
 	static $text_domain;
 
+	static $post_type_name;
+
 	/**
 	 * Hook into WordPress where appropriate.
 	 *
@@ -58,6 +60,8 @@ class FS_Simple_Glossary {
 	public static function init() {
 
 		self::$text_domain = apply_filters( 'simple_glossary_text_domain', 'Simple_Glossary' );
+
+		self::$post_type_name = apply_filters( 'glossary_post_type_name', 'glossary_term' );
 
 		add_action( 'init', __CLASS__ . '::register_post_type' );
 
@@ -89,7 +93,7 @@ class FS_Simple_Glossary {
 	 * @since 1.0
 	 */
 	public static function register_post_type() {
-		register_post_type( 'glossary_term',
+		register_post_type( self::$post_type_name,
 			array(
 				'description'         => __( 'The glossary post type to store glossary terms.', self::$text_domain ),
 				'public'              => true,
@@ -126,7 +130,7 @@ class FS_Simple_Glossary {
 	public static function is_glossary_archive() {
 		global $wp_query;
 
-		if( is_post_type_archive() && $wp_query->query_vars['post_type'] == 'glossary_term' )
+		if( is_post_type_archive() && $wp_query->query_vars['post_type'] == self::$post_type_name )
 			return true;
 		else
 			return false;
@@ -180,7 +184,7 @@ class FS_Simple_Glossary {
 	public static function get_glossary_terms_first_letters() {
 
 		$glossary_terms = get_posts( array( 
-								'post_type'     => 'glossary_term',
+								'post_type'     => self::$post_type_name,
 								'numberposts'   => -1,
 								'orderby'       => 'title', // Sort alphabetically
 								'order'         => 'ASC'
@@ -377,12 +381,12 @@ class FS_Simple_Glossary {
 		if( ! is_object( $post ) )
 			return $content;
 
-		$glossary_terms = get_posts( array( 'post_type' => 'glossary_term', 'numberposts' => -1 ) );
+		$glossary_terms = get_posts( array( 'post_type' => self::$post_type_name, 'numberposts' => -1 ) );
 
 		foreach( $glossary_terms as $glossary_term ) {
 
 			// Don't create circular references
-			if( $post->post_type == 'glossary_term' && $post->post_title == $glossary_term->post_title )
+			if( $post->post_type == self::$post_type_name && $post->post_title == $glossary_term->post_title )
 				continue;
 
 			$glossary_term->post_title = trim( $glossary_term->post_title );
@@ -419,7 +423,7 @@ class FS_Simple_Glossary {
 	public static function circumvent_single_glossary_pages() {
 		global $wp_query;
 
-		if( is_single() && $wp_query->query_vars['post_type'] == 'glossary_term' ) {
+		if( is_single() && $wp_query->query_vars['post_type'] == self::$post_type_name ) {
 			wp_safe_redirect( self::individual_glossary_term_uri( '', $wp_query->post ) );
 		}
 
@@ -430,7 +434,7 @@ class FS_Simple_Glossary {
 	 * Creates a URI for a single glossary term page of the form /glossary/letter/X/#x-term
 	 * 
 	 * This function is both hooked to hijack the default post_type_link for all posts of type
-	 * 'glossary_term' and also used to create links for specific post types in other functions, 
+	 * self::$post_type_name and also used to create links for specific post types in other functions, 
 	 * such as @see self::circumvent_single_glossary_pages.
 	 * 
 	 * @author Brent Shepherd <brent@findingsimple.com>
@@ -439,7 +443,7 @@ class FS_Simple_Glossary {
 	 */
 	public static function individual_glossary_term_uri( $link, $post ) {
 
-		if ( $post->post_type == 'glossary_term') {
+		if ( $post->post_type == self::$post_type_name) {
 			$post->post_title = trim( $post->post_title );
 			$link = self::the_glossary_filter_uri( substr( $post->post_title, 0, 1 ), array( 'echo' => false, 'remove_filter' => false ) ) . '#' . urlencode( $post->post_title );
 		}
@@ -473,7 +477,7 @@ class FS_Simple_Glossary {
 	public static function change_default_title( $title ){
 		$screen = get_current_screen();
 
-		if  ( 'eeo_glossary_term' == $screen->post_type )
+		if  ( self::$post_type_name == $screen->post_type )
 			$title = __( 'Enter Term', self::$text_domain );
 
 		return $title;
