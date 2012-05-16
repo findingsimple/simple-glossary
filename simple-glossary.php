@@ -43,7 +43,7 @@ class FS_Simple_Glossary {
 
 		self::$text_domain = apply_filters( 'simple_glossary_text_domain', 'Simple_Glossary' );
 
-		add_action( 'init', __CLASS__ . '::register_custom_post_types' );
+		add_action( 'init', __CLASS__ . '::register_post_type' );
 
 		add_filter( 'posts_where', __CLASS__ . '::glossary_search_where' );
 
@@ -61,8 +61,9 @@ class FS_Simple_Glossary {
 
 		add_filter( 'posts_orderby', __CLASS__ . '::order_glossary_terms', 10, 1 );
 
-	}
+		add_filter( 'enter_title_here', __CLASS__ . '::change_default_title' );
 
+	}
 
 	/**
 	 * Calls @see register_post_type function to create all the custom post types required on the EEO site.
@@ -71,7 +72,7 @@ class FS_Simple_Glossary {
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
-	public static function register_custom_post_types() {
+	public static function register_post_type() {
 		register_post_type( 'glossary_term',
 			array(
 				'description'         => __( 'The glossary post type to store glossary terms.', self::$text_domain ),
@@ -441,6 +442,22 @@ class FS_Simple_Glossary {
 			$orderby = " $wpdb->posts.post_title ASC";
 
 		return $orderby;
+	}
+
+	/**
+	 * Replaces the "Enter title here" text with 
+	 *
+	 * @author Brent Shepherd <brent@findingsimple.com>
+	 * @package Simple Glossary
+	 * @since 1.0
+	 */
+	public static function change_default_title( $title ){
+		$screen = get_current_screen();
+
+		if  ( 'eeo_glossary_term' == $screen->post_type )
+			$title = __( 'Enter Term', self::$text_domain );
+
+		return $title;
 	}
 
 }
