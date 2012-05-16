@@ -28,6 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
+if ( ! class_exists( 'FS_Simple_Glossary' ) ) {
+
 FS_Simple_Glossary::init();
 
 class FS_Simple_Glossary {
@@ -440,5 +442,7 @@ class FS_Simple_Glossary {
 
 		return $orderby;
 	}
+
+}
 
 }
