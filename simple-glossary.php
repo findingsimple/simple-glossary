@@ -57,6 +57,8 @@ class FS_Simple_Glossary {
 
 		add_action( 'post_type_link', __CLASS__ . '::individual_glossary_term_uri', 10, 2 );
 
+		add_filter( 'posts_orderby', __CLASS__ . '::order_glossary_terms', 10, 1 );
+
 	}
 
 
@@ -421,6 +423,22 @@ class FS_Simple_Glossary {
 		}
 
 		return $link;
+	}
+
+	/**
+	 * If a query is for Glossary terms, order them alphabetically. 
+	 * 
+	 * @author Brent Shepherd <brent@findingsimple.com>
+	 * @package Simple Glossary
+	 * @since 1.0
+	 */
+	public static function order_glossary_terms( $orderby ){
+		global $wpdb;
+
+		if( self::is_glossary_archive() )
+			$orderby = " $wpdb->posts.post_title ASC";
+
+		return $orderby;
 	}
 
 }
