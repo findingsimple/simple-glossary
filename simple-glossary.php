@@ -371,6 +371,9 @@ class FS_Simple_Glossary {
 	 * But only if the post content does not already contain a link to that glossary page and
 	 * the post content is not the glossary term.
 	 * 
+	 * To disable autolinking from a certain template or for other reasons, simply define a 
+	 * constant with the name FS_GLOSSARY_DISABLE_AUTOLINKING and any value
+	 * 
 	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
@@ -378,7 +381,7 @@ class FS_Simple_Glossary {
 	public static function autolink_glossary_terms( $content ) {
 		global $post;
 
-		if( ! is_object( $post ) )
+		if( ! is_object( $post ) || defined( 'FS_GLOSSARY_DISABLE_AUTOLINKING' ) )
 			return $content;
 
 		$glossary_terms = get_posts( array( 'post_type' => self::$post_type_name, 'numberposts' => -1 ) );
