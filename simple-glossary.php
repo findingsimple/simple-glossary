@@ -83,6 +83,7 @@ class FS_Simple_Glossary {
 
 		add_filter( 'enter_title_here', __CLASS__ . '::change_default_title' );
 
+		add_filter( 'wp_nav_menu_objects', __CLASS__ . '::fix_current_page_css_class', 10, 2 );
 	}
 
 	/**
@@ -484,6 +485,30 @@ class FS_Simple_Glossary {
 			$title = __( 'Enter Term', self::$text_domain );
 
 		return $title;
+	}
+
+	/**
+	 * Workaround a bug in WordPress core which 
+	 *
+	 * @link http://core.trac.wordpress.org/ticket/13543
+	 * @author Brent Shepherd <brent@findingsimple.com>
+	 * @package Simple Glossary
+	 * @since 1.0
+	 */
+	public static function fix_current_page_css_class( $menu_items, $args ) {
+
+		if ( get_post_type() == self::$post_type_name ) {
+
+			$page_id_for_posts = get_option( 'page_for_posts' );
+
+			foreach ( $menu_items as $menu_item_key => $menu_item )
+				if ( $menu_item->object_id == $page_id_for_posts )
+					foreach ( $menu_item->classes as $key => $class )
+						if ( $class == 'current_page_parent' )
+							unset( $menu_items[$menu_item_key]->classes[$key] );
+		}
+
+		return $menu_items;
 	}
 
 }
