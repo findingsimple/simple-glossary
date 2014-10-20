@@ -2,7 +2,7 @@
 /*
 Plugin Name: Simple Glossary
 Description: Define domain specific terms and autolink to their definitions.
-Author: _FindingSimple
+Author: Finding Simple
 Author URI: http://findingsimple.com/
 Version: 1.0
 
@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * @package Simple Glossary
  * @version 1.0
- * @author Brent Shepherd <brent@findingsimple.com>
  * @copyright Copyright (c) 2012 Finding Simple
  * @link http://findingsimple.com/
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -35,7 +34,6 @@ if ( ! class_exists( 'FS_Simple_Glossary' ) ) {
  * should not be initialized until after the plugins_loaded and after_setup_theme hooks.
  * However, it also needs to run early on the init hook.
  *
- * @author Brent Shepherd <brent@findingsimple.com>
  * @package Simple Glossary
  * @since 1.0
  */
@@ -53,7 +51,6 @@ class FS_Simple_Glossary {
 	/**
 	 * Hook into WordPress where appropriate.
 	 *
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -89,7 +86,6 @@ class FS_Simple_Glossary {
 	/**
 	 * Calls @see register_post_type function to create all the custom post types required on the EEO site.
 	 *
-	 * @author Jason Conroy <jason@findingsimple.com>, Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -124,7 +120,6 @@ class FS_Simple_Glossary {
 	/**
 	* Boolean function to check whether the current page is a self::glossary_term post archive.
 	 *
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -141,7 +136,6 @@ class FS_Simple_Glossary {
 	/**
 	 * Returns the URI to the Glossary Archive page. 
 	 *
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -153,7 +147,6 @@ class FS_Simple_Glossary {
 	/**
 	 * Returns the glossary filter form.
 	 *
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -178,7 +171,6 @@ class FS_Simple_Glossary {
 	 * Returns an array containing the first letter of all glossary terms and the number of terms 
 	 * that start with that letter.
 	 *
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -223,7 +215,6 @@ class FS_Simple_Glossary {
 	 * 			'echo' default true indicates that the URI should be printed as well as returns
 	 * 			'remove_filter' default true indicates that if a filter for the given $letter exists, it should be removed
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -255,7 +246,6 @@ class FS_Simple_Glossary {
 	/**
 	 * Returns the filter parameters for the current query (if any)
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -274,7 +264,6 @@ class FS_Simple_Glossary {
 	/**
 	 * Filters glossary results 
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -301,7 +290,6 @@ class FS_Simple_Glossary {
 	 * When filtering results by letter, don't page the glossary terms. This is required
 	 * for auto-linking to work without having individual glossary pages. 
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -319,7 +307,6 @@ class FS_Simple_Glossary {
 	 * 
 	 * Despite the rewrite rule name, a letter can actually be a number because a term may in fact start with a number.
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -335,7 +322,6 @@ class FS_Simple_Glossary {
 	/**
 	 * Adds the filter query parameters to the WP_Query object.
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -351,7 +337,6 @@ class FS_Simple_Glossary {
 	/**
 	 * Echos a selected class for a given taxonomy and term. 
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -375,7 +360,6 @@ class FS_Simple_Glossary {
 	 * To disable autolinking from a certain template or for other reasons, simply define a 
 	 * constant with the name FS_GLOSSARY_DISABLE_AUTOLINKING and any value
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -420,7 +404,6 @@ class FS_Simple_Glossary {
 	 * 
 	 * Used to remove individual glossary term pages. 
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -441,7 +424,6 @@ class FS_Simple_Glossary {
 	 * self::$post_type_name and also used to create links for specific post types in other functions, 
 	 * such as @see self::circumvent_single_glossary_pages.
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -458,7 +440,6 @@ class FS_Simple_Glossary {
 	/**
 	 * If a query is for Glossary terms, order them alphabetically. 
 	 * 
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -474,7 +455,6 @@ class FS_Simple_Glossary {
 	/**
 	 * Replaces the "Enter title here" text with 
 	 *
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
@@ -491,7 +471,6 @@ class FS_Simple_Glossary {
 	 * Workaround a bug in WordPress core which 
 	 *
 	 * @link http://core.trac.wordpress.org/ticket/13543
-	 * @author Brent Shepherd <brent@findingsimple.com>
 	 * @package Simple Glossary
 	 * @since 1.0
 	 */
